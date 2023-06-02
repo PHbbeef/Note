@@ -47,12 +47,6 @@ sysctl -w net.ipv4.conf.default.route_localnet=1
 3，转发外网端口流量则是设置PREROUTING链
 ```
 
-```shell
-#在windows下的配置（注意：第一个是指向192.168.1.5）
-#我这里192.168.1.5是无线网卡
-192.168.192.0    255.255.255.0            在链路上       192.168.1.5    101
-192.168.192.55  255.255.255.255           在链路上    192.168.192.55    291
-```
 
 ## 参考链接
 [内网穿透工具ZeroTier...](https://www.bilibili.com/video/BV1Vh411F7Mr/?share_source=copy_web&vd_source=988ba137d6a6f8fc134601e37b976fba)
