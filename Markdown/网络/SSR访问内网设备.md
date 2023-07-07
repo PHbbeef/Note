@@ -7,12 +7,12 @@
 + 在当前目录新建一个 <font color="red">config.json</font>
 ```
 {
-"server": "[::]",
-"server_port": 59876,
-"timeout": 60,
-"method": "aes-128-gcm",
-"password": "1234567890",
-"mode": "tcp_and_udp"
+  "server": "[::]",
+  "server_port": 59876,
+  "timeout": 60,
+  "method": "aes-128-gcm",
+  "password": "1234567890",
+  "mode": "tcp_and_udp"
 }
 ```
 ### 配置说明
