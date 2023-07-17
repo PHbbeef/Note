@@ -85,3 +85,11 @@ rsa:2048     rsa表示创建rsa私钥，2048表示私钥的长度。
     }
  }
 ```
+
+
+## 另一种方案
+```shell
+# 使用配置code-server文件
+cert: /root/.local/share/code-server/cert/www.codecoord.com_public.crt
+cert-key: /root/.local/share/code-server/cert/www.codecoord.com.key
+```
