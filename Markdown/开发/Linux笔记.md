@@ -25,3 +25,12 @@ echo $PATH
  printenv
  env
 ```
+
+
+# 加入sudo用户组
+```bash
+#切换root用户
+su -
+
+usermod -aG sudo [要加入的用户名]
+```
