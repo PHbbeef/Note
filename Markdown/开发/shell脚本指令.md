@@ -17,9 +17,9 @@ sleep 10s
 #shell中有-d,-f,-e,-n每个判断的作用不一样
 ```
 ```bash
- if [ ! -f "./test.sh" ];then
+if [ ! -f "./test.sh" ];then
   echo "文件不存在"
-  else
+else
   echo "文件存在"
- fi
+fi
 ```
