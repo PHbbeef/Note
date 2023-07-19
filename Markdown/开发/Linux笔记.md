@@ -34,3 +34,33 @@ su -
 
 usermod -aG sudo [要加入的用户名]
 ```
+
+# 文件同步Rsync
+```bash
+#配置环境
+vi /etc/rsyncd.conf
+
+uid=root
+gid=root
+max connections=4
+log file=/var/log/rsyncd.log
+pid file=/var/run/rsyncd.pid
+lock file=/var/run/rsyncd.lock
+secrets file=/etc/rsyncd.passwd
+hosts deny=172.16.78.0/22
+
+[steam]
+comment= 连接stema用户  #注释（连接时不加连接用户会显示用户和注释；work@192.168.99::）
+path=/home/steam/       #客户端访问的文件路径
+read only = no
+exclude=test
+auth users=work         #连接用户（这里要和rsyncd.passwd对应；work@192.168.99）
+
+
+#其他
+rsync --daemon  #(启动服务；端口是873)
+rsync --list-only work@192.168.1.99::   #(列出文件而不是复制它们)
+
+#常用同步指令（无需再输入密码）
+rsync -rtvzP --password-file=rsyncd.txt work@192.168.1.99::
+```
