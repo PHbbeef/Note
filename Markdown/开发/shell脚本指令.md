@@ -1,5 +1,10 @@
 # 自动备份文件推到git
 ```bash
+Windows用户请借助 定时任务 实现自动执行脚本文件 参考文档
+
+Linux用户请借助 Crontab 命令实现自动执行脚本文件 参考文档
+```
+```bash
 #!/bin/bash
 git status
 echo "####### 开始自动Git #######"
