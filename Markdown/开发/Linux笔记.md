@@ -64,3 +64,12 @@ rsync --list-only work@192.168.1.99::   #(列出文件而不是复制它们)
 #常用同步指令（无需再输入密码）
 rsync -rtvzP --password-file=rsyncd.txt work@192.168.1.99::
 ```
+
+
+# 其他指令
+## davfs2
+```bash
+# 使用坚果云的webdab报错：the server does not support WebDAV
+# 修改 /etc/davfs2/davfs2.conf 配置文件取消掉注释
+ignore_dav_header 1
+```
