@@ -14,6 +14,8 @@ Linux是一个多用户操作系统，每个用户都有自己专有的运行环
 #添加环境变量值
 export DOTNET_ROOT=$HOME/dotnet
 PATH=$PATH:$HOME/dotnet
+sudo vim /etc/bash.bashrc   #永久添加环境 
+source /etc/bash.bashrc # 更新环境配置
 
 #删除环境变量（删除PATH变量）
 unset PATH
