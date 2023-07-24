@@ -1,7 +1,19 @@
+# 目录结构
+```bash
+#源文件
+/etc/apt
+
+#网络配置（网关，dns，掩码）
+/etc/network/interfaces
+#静态配置入校
+auto enp0s3
+iface enp0s3 inet static
+address 192.168.2.2
+netmask 255.255.255.0
+gateway 192.168.2.2
+dns-nameservers 8.8.4.4 8.8.8.8
 ```
-#配合管道符筛选指定名
-dpkg -l |grep vim
-```
+
 
 # 环境变量
 Linux是一个多用户操作系统，每个用户都有自己专有的运行环境。用户所使用的环境由一系列变量所定义，这些变量被称为环境变量。系统环境变量通常都是大写的。
@@ -74,4 +86,9 @@ rsync -rtvzP --password-file=rsyncd.txt work@192.168.1.99::
 # 使用坚果云的webdab报错：the server does not support WebDAV
 # 修改 /etc/davfs2/davfs2.conf 配置文件取消掉注释
 ignore_dav_header 1
+```
+## 管道
+```bash
+#配合管道符筛选指定名
+dpkg -l |grep vim
 ```
