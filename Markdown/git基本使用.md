@@ -1,3 +1,26 @@
+## 基本指令
+```bash
+# 还原所有修改，不会删除新增的文件
+git checkout .
+```
+
+## 撤销
+```bash
+git revert HEAD   # 撤销前一次操作   
+git revert HEAD~  # 撤销前前一次操作   
+git revert commit # 撤销指定操作   
+```
+
+## 回退提交
+注：回退提交并不会把上次内容删除
+```shell
+#回退到上次版本
+git reset --hard HEAD^
+
+#回退到指定
+git reset --hard <hash>
+```
+
 ## 克隆远程指定分支
 ```
 git clone -b https://github.com***
@@ -33,12 +56,3 @@ git push uunew R1_2212-flw:R1_2212   # uunew是另一个仓库的orgin 含义是
 ```
 
 ### 转载 [GIT操作：把当前仓库的一个分支push到另一个仓库的指定分支](https://blog.csdn.net/gct/article/details/128415329?spm=1001.2101.3001.6650.1&utm_medium=distribute.pc_relevant.none-task-blog-2%7Edefault%7ECTRLIST%7ERate-1-128415329-blog-122924844.235%5Ev32%5Epc_relevant_increate_t0_download_v2&depth_1-utm_source=distribute.pc_relevant.none-task-blog-2%7Edefault%7ECTRLIST%7ERate-1-128415329-blog-122924844.235%5Ev32%5Epc_relevant_increate_t0_download_v2&utm_relevant_index=2)
-
-## 回退提交
-```shell
-#回退到上次版本
-git reset --hard HEAD^
-
-#回退到指定
-git reset --hard <hash>
-```
