@@ -1,9 +1,5 @@
-# Apps Script
-[帮助文档](https://developers.google.com/apps-script/reference/spreadsheet?hl=zh-cn)
-
-
 # appsheet简单使用
-[帮助文档](https://support.google.com/appsheet/table/10104782)
+函数[帮助文档](https://support.google.com/appsheet/table/10104782)
 
 + INITIAL VALUE：初始值
 + REQUIRE：必须要有值
