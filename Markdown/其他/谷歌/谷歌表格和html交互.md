@@ -52,7 +52,7 @@
 + 新建一个 Web应用 更改访问权限为 任何人
 + 更改html文件内容为自己的 Web应用网址
 
-```
+```html
 <!DOCTYPE html>
 <html>
 <head>
