@@ -56,3 +56,8 @@ git push uunew R1_2212-flw:R1_2212   # uunew是另一个仓库的orgin 含义是
 ```
 
 ### 转载 [GIT操作：把当前仓库的一个分支push到另一个仓库的指定分支](https://blog.csdn.net/gct/article/details/128415329?spm=1001.2101.3001.6650.1&utm_medium=distribute.pc_relevant.none-task-blog-2%7Edefault%7ECTRLIST%7ERate-1-128415329-blog-122924844.235%5Ev32%5Epc_relevant_increate_t0_download_v2&depth_1-utm_source=distribute.pc_relevant.none-task-blog-2%7Edefault%7ECTRLIST%7ERate-1-128415329-blog-122924844.235%5Ev32%5Epc_relevant_increate_t0_download_v2&utm_relevant_index=2)
+
+## git commit提示设置
+```
+git config --global commit.template /home/zqchen/.zqchen_gitmessage.txt
+```
