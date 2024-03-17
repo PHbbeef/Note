@@ -1,4 +1,5 @@
 # 目录结构
+
 ```bash
 #源文件
 /etc/apt
@@ -14,14 +15,21 @@ gateway 192.168.2.2
 dns-nameservers 8.8.4.4 8.8.8.8
 ```
 
-
 # 环境变量
+
 Linux是一个多用户操作系统，每个用户都有自己专有的运行环境。用户所使用的环境由一系列变量所定义，这些变量被称为环境变量。系统环境变量通常都是大写的。
 
 在终端运行可执行程序时是首先会在当前目录查找，如果找不到则会在环境变量中去找。
-+ 环境变量告诉可执行程序的绝对路径，以便可以不在当前目录执行程序。
+
+*   环境变量告诉可执行程序的绝对路径，以便可以不在当前目录执行程序。
+
+```C++
+// 1、bash:useradd:command not found。如果安装后还是提示错误配置环境变量
+PATH=$PATH:/bin:/usr/sbin
+```
 
 ## 常用指令
+
 ```shell
 #添加环境变量值
 export DOTNET_ROOT=$HOME/dotnet
@@ -40,8 +48,8 @@ echo $PATH
  env
 ```
 
-
 # 加入sudo用户组
+
 ```bash
 #切换root用户
 su -
@@ -50,6 +58,7 @@ usermod -aG sudo [要加入的用户名]
 ```
 
 # 文件同步Rsync
+
 ```bash
 #配置环境
 vi /etc/rsyncd.conf
@@ -79,16 +88,20 @@ rsync --list-only work@192.168.1.99::   #(列出文件而不是复制它们)
 rsync -rtvzP --password-file=rsyncd.txt work@192.168.1.99::
 ```
 
-
 # 其他指令
+
 ## davfs2
+
 ```bash
 # 使用坚果云的webdab报错：the server does not support WebDAV
 # 修改 /etc/davfs2/davfs2.conf 配置文件取消掉注释
 ignore_dav_header 1
 ```
+
 ## 管道
+
 ```bash
 #配合管道符筛选指定名
 dpkg -l |grep vim
 ```
+
