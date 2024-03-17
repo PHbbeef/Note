@@ -1,5 +1,5 @@
-##安装和配置
-官方的安装有详细说明
+## 安装和配置 官方的安装有详细说明
+
 ```bash
 #创建用户
 useradd steam
@@ -19,7 +19,16 @@ wget https://steamcdn-a.akamaihd.net/client/installer/steamcmd_linux.tar.gz
 ./steamcmd.sh
 ```
 
+## 饥荒搭建
+
+```C++
+./dontstarve_dedicated_server_nullrenderer -console -cluster MyDediServer -shard Master
+
+./dontstarve_dedicated_server_nullrenderer -console -cluster MyDediServer -shard Caves
+```
+
 ## 其他说明
+
 Q1：SteamCMD的存档在哪？
 Q2：下载的服务端在什么位置？
 
