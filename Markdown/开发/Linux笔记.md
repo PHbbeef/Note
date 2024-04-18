@@ -105,3 +105,19 @@ ignore_dav_header 1
 dpkg -l |grep vim
 ```
 
+## 挂载硬盘
+
+```C++
+// 查看硬盘信息
+lsblk
+
+// 格式化指定硬盘
+sudo mkfs -t ext4 /dev/sda1
+
+// 挂载指定目录
+sudo mount /dev/sda1 /data
+
+// 查看挂载硬盘信息
+df -h
+```
+
