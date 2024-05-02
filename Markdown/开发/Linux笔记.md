@@ -121,3 +121,28 @@ sudo mount /dev/sda1 /data
 df -h
 ```
 
+## 添加开机自启动
+
+```C++
+vi /etc/systemd/system/qbittorrent.service //使用vi设置开机自启服务
+
+  
+[Unit]
+Description=qBittorrent Daemon Service
+After=network.target
+[Service]
+User=root
+ExecStart=/usr/bin/qbittorrent-nox
+ExecStop=/usr/bin/killall -w qbittorrent-nox
+[Install]
+WantedBy=multi-user.target
+
+
+systemctl daemon-reload //更新服务
+service qbittorrent start //启动qb
+service qbittorrent status //查看qb状态
+systemctl enable qbittorrent //设置QB开机启动
+service qbittorrent stop //关闭qb
+systemctl disable qbittorrent //关闭开机自启
+```
+
