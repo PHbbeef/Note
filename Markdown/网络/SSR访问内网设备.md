@@ -7,7 +7,7 @@
 + 在当前目录新建一个 <font color="red">config.json</font>
 ```
 {
-  "server": "[::]",
+  "server": "::",
   "server_port": 59876,
   "timeout": 60,
   "method": "aes-128-gcm",
