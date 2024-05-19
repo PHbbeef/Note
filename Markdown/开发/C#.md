@@ -42,6 +42,11 @@ dotnet new sln -n "1"
 dotnet sln "1.sln" add “TestApi"
 ```
 
+```C#
+//添加指定包
+dotnet "add" "/root/code/Cshap/Test/Test.csproj" "package" "Swashbuckle.AspNetCore"
+```
+
 
 ## 启动和调试
 |    |    |
