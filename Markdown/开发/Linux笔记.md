@@ -146,3 +146,6 @@ service qbittorrent stop //关闭qb
 systemctl disable qbittorrent //关闭开机自启
 ```
 
+
+## 登陆显示信息
+bash文件放到`/etc/profile.d/`文件。该目录会在用户登陆时运行
