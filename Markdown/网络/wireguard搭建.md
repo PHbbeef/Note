@@ -2,7 +2,15 @@
 ```shell
 apt install wireguard
 
+# 加载内核
+modprobe wireguard
 
+# 查看内核加载情况
+lsmod | grep wireguard
+
+# 查看tun
+cat /dev/net/tun
+# cat: /dev/net/tun: File descriptor in bad state（返回正常）
 ```
 
 # 配置
