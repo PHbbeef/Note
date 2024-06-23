@@ -88,3 +88,27 @@ server{
 }
 ```
 
+
+# 反向代理
+服务端反向代理解决跨域问题
+
+```conf
+    server {
+        listen       80;    #nginx监听端口
+        server_name  localhost;
+
+        #charset koi8-r;
+
+        #access_log  logs/host.access.log  main;
+		
+        location / {
+            root   html;
+            index  index.html index.htm;
+        }
+		location /Air{
+			proxy_pass http://localhost:3000;   #nodejs服务端监听端口
+			add_header Access-Control-Allow-Origin *;   #跨域头部，星号运行全部
+            #这里`Air`是`nodesjs`路由api
+		}
+```
+
