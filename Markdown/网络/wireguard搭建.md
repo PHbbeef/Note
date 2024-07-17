@@ -54,6 +54,7 @@ wg genkey | sudo tee /etc/wireguard/privatekey-wg0 | wg pubkey | sudo tee /etc/w
 [Interface]
 PrivateKey = CLIENT_PRIVATE_KEY  #客户端生成的私钥
 Address = 10.100.1.2/32 #改为想给本机分配的ip
+DNS = 114.114.114.114   #dns地址
 
 [Peer]
 PublicKey = SERVER_PUBLIC_KEY  #服务器端生成的公钥
@@ -62,3 +63,8 @@ AllowedIPs = 10.100.1.0/24	#这里是限制只有10.100.1 网段的请求走Wire
 PersistentKeepalive = 120	#握手时间，每隔120s ping一次客户端
 
 ```
+
+
+# wireguard映射内网端口
++ 注意客户端ip要代理网络请求（如果只有1.1.1.1那么只代理1.1.1.1，不确定ip最好全局）
++ 添加DNAT规则映射端口信息，让服务器的端口映射到内网客户端
