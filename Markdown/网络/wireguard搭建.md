@@ -33,6 +33,11 @@ PostUp = iptables -A FORWARD -i %i -j ACCEPT; iptables -t nat -A POSTROUTING -o 
 PostDown = iptables -D FORWARD -i %i -j ACCEPT; iptables -t nat -D POSTROUTING -o eth0 -j MASQUERADE
 ListenPort = 51800
 PrivateKey = SERVER_PRIVATE_KEY  #服务器端生成的私钥
+
+[Peer]
+PublicKey = Peer #客户端生成的公钥 publickey
+AllowedIPs = 10.100.1.2/24
+PersistentKeepalive = 15
 ```
 
 # 启动
@@ -44,6 +49,8 @@ wg-quick down wg0
 
 # 客户端
 ```
+wg genkey | sudo tee /etc/wireguard/privatekey-wg0 | wg pubkey | sudo tee /etc/wireguard/publickey-wg0 #客户端和服务生成的密钥指令一样
+
 [Interface]
 PrivateKey = CLIENT_PRIVATE_KEY  #客户端生成的私钥
 Address = 10.100.1.2/32 #改为想给本机分配的ip
