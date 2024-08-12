@@ -48,6 +48,7 @@ wg-quick down wg0
 
 
 # 客户端
+## win
 ```
 wg genkey | sudo tee /etc/wireguard/privatekey-wg0 | wg pubkey | sudo tee /etc/wireguard/publickey-wg0 #客户端和服务生成的密钥指令一样
 
@@ -61,7 +62,21 @@ PublicKey = SERVER_PUBLIC_KEY  #服务器端生成的公钥
 Endpoint = SERVER_IP_ADDRESS:51800  #服务器的公网IP和端口
 AllowedIPs = 10.100.1.0/24	#这里是限制只有10.100.1 网段的请求走WireGuard,不影响其它应用上网,设为0.0.0.0/0则是所有请求均走WireGuard
 PersistentKeepalive = 120	#握手时间，每隔120s ping一次客户端
+```
+## Linux
+```json
+// 然导入了配置文件，但是直接运行的时候出错了，提示网络错误，后来查阅各方资料发现对于Linux系统，必须要设定本机网络参数。
 
+// 查看路由表信息
+ip route list table main default 
+ip -brief address show eth0
+
+//网络启动，关闭执行的指令路由表
+// 添加一条规则，将来自 IP 地址 192.168.1.100 的流量通过路由表 200 进行路由。
+PostUp = ip rule add table 200 from 192.168.1.100
+PostUp = ip route add table 200 default via 192.168.1.1
+PreDown = ip rule delete table 200 from 192.168.1.100
+PreDown = ip route delete table 200 default via 192.168.1.1
 ```
 
 
