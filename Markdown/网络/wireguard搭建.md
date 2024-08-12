@@ -64,14 +64,14 @@ AllowedIPs = 10.100.1.0/24	#这里是限制只有10.100.1 网段的请求走Wire
 PersistentKeepalive = 120	#握手时间，每隔120s ping一次客户端
 ```
 ## Linux
-```json
-// 然导入了配置文件，但是直接运行的时候出错了，提示网络错误，后来查阅各方资料发现对于Linux系统，必须要设定本机网络参数。
+```
+//然导入了配置文件，但是直接运行的时候出错了，提示网络错误，后来查阅各方资料发现对于Linux系统，必须要设定本机网络参数。
 
 // 查看路由表信息
 ip route list table main default 
 ip -brief address show eth0
 
-//网络启动，关闭执行的指令路由表
+// 网络启动，关闭执行的指令路由表
 // 添加一条规则，将来自 IP 地址 192.168.1.100 的流量通过路由表 200 进行路由。
 PostUp = ip rule add table 200 from 192.168.1.100
 PostUp = ip route add table 200 default via 192.168.1.1
