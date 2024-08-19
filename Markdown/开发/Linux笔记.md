@@ -83,6 +83,7 @@ auth users=work         #连接用户（这里要和rsyncd.passwd对应；work@1
 #其他
 rsync --daemon  #(启动服务；端口是873)
 rsync --list-only work@192.168.1.99::   #(列出文件而不是复制它们)
+rsync --list-only work@192.168.1.100::home/armbian/ #查看home用户目录下armbian文件
 
 #常用同步指令（无需再输入密码）
 rsync -rtvzP --password-file=rsyncd.txt work@192.168.1.99::
