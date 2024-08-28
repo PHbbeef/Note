@@ -150,3 +150,24 @@ systemctl disable qbittorrent //关闭开机自启
 
 ## 登陆显示信息
 bash文件放到`/etc/profile.d/`文件。该目录会在用户登陆时运行
+
+
+## 日志文件
+日志文件是在Debian下运行，其他发行版有区别
+```shell
+# 安装日志
+apt-get install rsyslog
+
+# 日志配置文件基本在这两个目录
+/etc/rsyslog.conf
+/etc/rsyslog.d/
+
+# 日志保存所在目录
+/var/log
+
+```
+rsyslog配置基本信息
+```shell
+# 记录登录信息
+auth,authpriv.*    /var/log/auth.log
+```
