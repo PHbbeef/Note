@@ -41,3 +41,9 @@ PubkeyAuthentication yes
 PasswordAuthentication no
 
 ```
+
+## 相关问题
+```shell
+# 1.禁止密码登录失效
+/etc/ssh/sshd_config.d
+```
