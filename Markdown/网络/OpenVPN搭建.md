@@ -5,7 +5,7 @@
 local 192.168.0.2        # 监听本地接口192.168.0.2
 port 1194                       # 端口1194
 proto udp                      # 使用 UDP。TCP会有严重的性能问题。
-dev tap                           # 将以太网二层报文装入DTLS会话。
+dev tap                           # 将以太网二层报文装入DTLS会话。 注：如果要改为桥接模式注释到dev tun 改为dev tap
 ca /etc/ca.crt                # CA证书
 cert /etc/server.crt   # 证书
 key /etc/server.key.txt  # 私钥
@@ -556,4 +556,23 @@ verb 3
 
 # Silence repeating messages
 ;mute 20
+```
+
+
+## 其他配置
+
+win10服务端搭建，客户端可以访问服务端内网设备
+```C++
+// 开启网卡共享
+/*
+假设服务端使用的网卡是 SSTAP，服务器内网网段网卡是 以太网。注：内网网段网卡共享SSTAP
+*/
+网卡属性 -> 共享 -> internet 连接共享
+
+// ******************* 此方法不可用 *******************
+/* 
+Linux 下可以是使用iptable，win下面使用路由表的配置。具体如下
+假设服务器的内网子网为192.168.1.0/24，而OpenVPN服务器在该内网中的IP地址为10.8.0.1。
+*/
+route -p add 192.168.1.0 mask 255.255.255.0 10.8.0.1    // -p 添加永久路由
 ```

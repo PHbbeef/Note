@@ -87,6 +87,9 @@ rsync --list-only work@192.168.1.100::home/armbian/ #查看home用户目录下ar
 
 #常用同步指令（无需再输入密码）
 rsync -rtvzP --password-file=rsyncd.txt work@192.168.1.99::
+
+# 删除变动的文件；新增变动的文件；最好使用这个命令来传输文件
+rsync --password-file=rsyncd.txt -avz --delete ./音乐/* work@192.168.1.100::www
 ```
 
 # 其他指令
@@ -170,4 +173,15 @@ rsyslog配置基本信息
 ```shell
 # 记录登录信息
 auth,authpriv.*    /var/log/auth.log
+```
+
+## Nmap基本使用
+```shell
+# -6    使用ipv6
+# -sU   扫描UDP协议
+# -p    指定端口
+# -v    输出详细信息
+# -T4   扫描方式4默认扫描，5是快速扫描（流量特征防止扫描设备流量大被ban掉）
+
+nmap -p 1-65535 -v 192.168.1.1
 ```
