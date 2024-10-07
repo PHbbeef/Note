@@ -17,18 +17,20 @@ sysctl -p
 ```shell
 #添加SNAT规则:
 
-sudo iptables -t nat -A POSTROUTING -s <目标IP/子网> -o <源出口网卡> -j SNAT --to-source <转换后的源IP>
+sudo iptables -t nat -A POSTROUTING -s <IP/子网> -o <出口网卡> -j SNAT --to-source <转换后的IP>
 
-#其中，目标IP/子网是指需要修改的源IP地址或者IP地址段，源出口网卡是指数据包从哪个网卡出去，转换后的目标IP是指将数据包的源IP地址替换为哪个IP地址。
+#其中，IP/子网是指需要修改的IP地址或者IP地址段，出口网卡是指数据包从哪个网卡出去。
+#比如zerotier要通过服务器的网络访问，IP/子网就是zerotier网段，出口网卡是服务器的网卡，转换回的IP是服务器IP
 ```
 
 ```shell
 #添加DNAT规则(这个不需要，这里只是做一个参考)：
 
-sudo iptables -t nat -A PREROUTING -d <目标IP> -i <目标入口网卡> -p <协议> --dport <目标端口> -j DNAT --to-destination <转换后的目标IP:端口号>
+sudo iptables -t nat -A PREROUTING -d <IP> -i <入口网卡> -p <协议> --dport <端口> -j DNAT --to-destination <转换后的IP:端口号>
 
-#其中，目标IP是指需要修改的目标IP地址，入口网卡是指数据包从哪个网卡进来，协议是指需要转换的协议类型，目标端口是指需要转换的目标端口，转换后的目标IP是指将数据包的目标IP地址替换为哪个IP地址和端口号。（外网请求——>VPS——内网）
+#其中，IP是指需要修改的IP地址，入口网卡是指数据包从哪个网卡进来，协议是指需要转换的协议类型。
 #--dports 10000:50000
+#外网访问通过服务器转发到zerotier设备，IP是外网网段，入口网卡服务器一般是eth0，转换后的IP是zerotier设备这个可以是家庭设备。（这样当访问公网服务器会通过VPN转发到指定设备，从而达到反向代理）
 ```
 
 ```shell

@@ -37,6 +37,8 @@ PATH=$PATH:$HOME/dotnet
 sudo vim /etc/bash.bashrc   #永久添加环境 
 source /etc/bash.bashrc # 更新环境配置
 
+export PATH=$PATH:/sbin/    #添加变量
+
 #删除环境变量（删除PATH变量）
 unset PATH
 
