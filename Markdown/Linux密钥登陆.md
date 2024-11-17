@@ -31,6 +31,9 @@ chmod 600 ~/.ssh/id_rsa.pub
 # authorized_keys文件的权限要设为644，即只有文件所有者才能写。如果权限设置不对，SSH 服务器可能会拒绝读取该文件
 chmod 644 ~/.ssh/authorized_keys
 
+# 编辑配置文件
+vim /etc/ssh/sshd_config
+
 # 禁止root登录
 PermitRootLogin no
 
