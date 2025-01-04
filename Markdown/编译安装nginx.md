@@ -112,3 +112,29 @@ server{
 		}
 ```
 
+# 搭建WebDav
+[库文件下载地址](https://github.com/arut/nginx-dav-ext-module)
+``` shell
+
+# 添加库文件
+--with-http_dav_module --add-dynamic-module=../nginx-dav-ext-module
+
+
+# webdav配置
+
+```
+        location /webdav {
+            # 存储路径
+            root /home/;
+
+            # 用户名 密码
+            auth_basic "Restricted";
+            auth_basic_user_file /etc/nginx/htpasswd;
+            
+            dav_methods PUT DELETE MKCOL COPY MOVE;
+            dav_ext_methods PROPFIND OPTIONS;
+            dav_access user:rw group:rw all:rw;
+            create_full_put_path on;
+}
+```
+
