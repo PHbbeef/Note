@@ -22,6 +22,14 @@
 * 粘贴公钥即,保存并退出即可
 
 ## 相关设置
+```bash
+# 生成的密钥复制到指令文件
+cat id_rsa.pub > authorized_keys
+
+# 重启SSH
+systemctl restart ssh
+```
+
 密钥登录相关设置
 ```shell
 # 修改它们的权限，防止其他人读取

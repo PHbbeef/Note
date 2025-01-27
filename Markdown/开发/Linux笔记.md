@@ -101,6 +101,12 @@ rsync --password-file=rsyncd.txt -avz --delete ./音乐/* work@192.168.1.100::ww
 //root使用ls命令文件不显示颜色
 cp .bashrc /root/	//有颜色的用户文件复制到root
 source .bashrc		//刷新文件
+
+
+// 解决vim指令服务粘贴
+vim ~/.vimrc
+
+: set mouse=c   //输入文本
 ```
 
 ## davfs2

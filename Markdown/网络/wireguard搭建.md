@@ -27,7 +27,7 @@ vim /etc/wireguard/wg0.conf
 ## 写入配置信息
 ```
 [Interface]
-Address = 10.100.1.1/24
+Address = 10.100.1.1/32, fd23:23:23::1/128
 SaveConfig = true
 PostUp = iptables -A FORWARD -i %i -j ACCEPT; iptables -t nat -A POSTROUTING -o eth0 -j MASQUERADE
 PostDown = iptables -D FORWARD -i %i -j ACCEPT; iptables -t nat -D POSTROUTING -o eth0 -j MASQUERADE
@@ -36,7 +36,7 @@ PrivateKey = SERVER_PRIVATE_KEY  #服务器端生成的私钥
 
 [Peer]
 PublicKey = Peer #客户端生成的公钥 publickey
-AllowedIPs = 10.100.1.2/24
+AllowedIPs = 10.100.1.2/32, fd23:23:23::2/128
 PersistentKeepalive = 15
 ```
 
@@ -47,6 +47,48 @@ wg-quick down wg0
 ```
 
 
+## Windos服务端
+[微软地址'设置 NAT 网络'](https://learn.microsoft.com/zh-cn/virtualization/hyper-v-on-windows/user-guide/setup-nat-network)
+
+```bash
+# 查找刚创建的虚拟交换机的接口索引
+Get-NetAdapter
+```
+
+```C++
+// 使用 New-NetIPAddress 配置 NAT 网关。
+New-NetIPAddress -IPAddress 10.100.1.1 -PrefixLength 24 -InterfaceIndex 70
+
+/*
+IPAddress - NAT 网关 IP 指定要用作 NAT 网关 IP 的 IPv4 或 IPv6 地址。常规形式将为 a.b.c.1（例如 172.16.0.1）。 尽管最后一个位置不一定必须是.1，但通常是（基于前缀长度）
+通用网关 IP 为 192.168.0.1
+
+PrefixLength -- NAT 子网前缀长度定义的 NAT 本地子网大小（子网掩码）。 子网前缀长度将介于 0 到 32 之间的一个整数值。
+0 将映射整个 Internet，32 则只允许一个映射的 IP。 常用值范围从 24 到 12，具体要取决于多少 IP 需要附加到 NAT。
+常用 PrefixLength 为 24 -- 这是子网掩码 255.255.255.0
+
+InterfaceIndex -- ifIndex 是你在上一步中确定的虚拟交换机的接口索引。
+*/
+```
+
+```C++
+// 若要配置网关，你将需要提供一些有关网络和 NAT 网关的信息：
+New-NetNat  -Name MyNATnetwork -InternalIPInterfaceAddressPrefix 10.100.1.0/24
+
+/*
+Name - NATOutsideName 描述 NAT 网络的名称。 将使用此参数删除 NAT 网络。
+
+InternalIPInterfaceAddressPrefix - NAT 子网前缀同时描述上述 NAT 网关 IP 前缀和上述 NAT 子网前缀长度。
+
+New-NetNat  -Name MyNATnetwork -InternalIPInterfaceAddressPrefix 10.100.1.0/24
+*/
+```
+
+```c++
+使用Remove-NetNat可以清空Nat网络
+```
+
+
 # 客户端
 ## win
 ```
@@ -54,13 +96,13 @@ wg genkey | sudo tee /etc/wireguard/privatekey-wg0 | wg pubkey | sudo tee /etc/w
 
 [Interface]
 PrivateKey = CLIENT_PRIVATE_KEY  #客户端生成的私钥
-Address = 10.100.1.2/32 #改为想给本机分配的ip
+Address = 10.100.1.2/32, fd23:23:23::2/128 #改为想给本机分配的ip
 DNS = 114.114.114.114   #dns地址
 
 [Peer]
 PublicKey = SERVER_PUBLIC_KEY  #服务器端生成的公钥
 Endpoint = SERVER_IP_ADDRESS:51800  #服务器的公网IP和端口
-AllowedIPs = 10.100.1.0/24	#这里是限制只有10.100.1 网段的请求走WireGuard,不影响其它应用上网,设为0.0.0.0/0则是所有请求均走WireGuard
+AllowedIPs = 10.100.1.0/24, ::/0	#这里是限制只有10.100.1 网段的请求走WireGuard,不影响其它应用上网,设为0.0.0.0/0则是所有请求均走WireGuard
 PersistentKeepalive = 120	#握手时间，每隔120s ping一次客户端
 ```
 ## Linux
