@@ -90,48 +90,10 @@ http:
 ### VMess+WS+CDN配置
 ```json
 {
-  "log": null,
-  "routing": {
-    "rules": [
-      {
-        "inboundTag": [
-          "api"
-        ],
-        "outboundTag": "api",
-        "type": "field"
-      },
-      {
-        "ip": [
-          "geoip:private"
-        ],
-        "outboundTag": "blocked",
-        "type": "field"
-      },
-      {
-        "outboundTag": "blocked",
-        "protocol": [
-          "bittorrent"
-        ],
-        "type": "field"
-      }
-    ]
-  },
-  "dns": null,
   "inbounds": [
     {
-      "listen": "127.0.0.1",
-      "port": 62789,
-      "protocol": "dokodemo-door",
-      "settings": {
-        "address": "127.0.0.1"
-      },
-      "streamSettings": null,
-      "tag": "api",
-      "sniffing": null
-    },
-    {
-      "listen": null,
-      "port": 2053,     //CDN HTTPS端口
+      "listen": "0.0.0.0",
+      "port": 443,
       "protocol": "vmess",
       "settings": {
         "clients": [
@@ -139,8 +101,7 @@ http:
             "id": "c71c17ee-38a9-4ac2-9bc1-175fd0324700",
             "alterId": 0
           }
-        ],
-        "disableInsecureEncryption": false
+        ]
       },
       "streamSettings": {
         "network": "ws",
@@ -149,9 +110,8 @@ http:
           "serverName": "www.drlihui.eu.org",
           "certificates": [
             {
-                "certificateFile": "/root",     //公钥路径
-                "keyFile": "/root"              //密钥路径
-
+                "certificateFile": "/root/xray/pem.txt",
+                "keyFile": "/root/xray/key.txt"      
             }
           ]
         },
@@ -161,45 +121,18 @@ http:
             "Host": "www.drlihui.eu.org"
           }
         }
-      },
-      "tag": "inbound-2053",
-      "sniffing": {
-        "enabled": true,
-        "destOverride": [
-          "http",
-          "tls"
-        ]
       }
     }
   ],
-  "outbounds": [
-    {
-      "protocol": "freedom",
-      "settings": {}
-    },
-    {
-      "protocol": "blackhole",
-      "settings": {},
-      "tag": "blocked"
-    }
-  ],
-  "transport": null,
-  "policy": {
-    "system": {
-      "statsInboundDownlink": true,
-      "statsInboundUplink": true
-    }
-  },
-  "api": {
-    "services": [
-      "HandlerService",
-      "LoggerService",
-      "StatsService"
-    ],
-    "tag": "api"
-  },
-  "stats": {},
-  "reverse": null,
-  "fakeDns": null
+"outbounds": [
+        {
+            "protocol": "freedom",
+            "tag": "direct"
+        },
+        {
+            "protocol": "blackhole",
+            "tag": "block"
+        }
+    ]
 }
 ```

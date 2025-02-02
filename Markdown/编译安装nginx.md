@@ -2,8 +2,8 @@
 ## 下载依赖环境
 ```shell
 # 安装GCC,G++
-$ apt instal G++
-$ apt install GCC
+$ apt instal g++
+$ apt install gcc
 # 下载并解压依赖软件包
 $ wget https://buildpack.oss-cn-shanghai.aliyuncs.com/static/r6d/nginx/nginx-compile-lib/pcre-8.44.tar.gz
 
@@ -17,7 +17,7 @@ $ wget https://buildpack.oss-cn-shanghai.aliyuncs.com/static/r6d/nginx/nginx-com
 ```shell
 # 注意环境的目录地址,根据自己的情况自用选择
 $ ./configure \
---prefix=/usr/local/Nginx \
+--prefix=/usr/local/nginx \
 --with-http_ssl_module \
 --with-openssl=../openssl-1.1.1l \
 --with-pcre=../pcre-8.44 \
