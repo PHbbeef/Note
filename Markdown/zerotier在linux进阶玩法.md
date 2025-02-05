@@ -61,6 +61,68 @@ iptables -t nat -D POSTROUTING <规则号>
 
     3，转发外网端口流量则是设置PREROUTING链
 
+
+## 下发IPV6地址
+
+### 安装 ndppd
+框架已经搭建好了，现在任何一台通过该 zerotier 网络认证的客户端都会获得一个可用的公网 IPv6 地址，它们彼此之间可以通信。但是现在为止除 ECS 服务器外，其他客户端依然无法访问外部 IPv6 地址及被其他 IPv6 地址访问。这是因为zerotier 申明的公网 IPv6 地址未进行正常的 IPv6 广播，不能被其他的 IPv6 地址知道。
+
+在 ECS 服务器上安装 ndppd 软件以支持 IPv6 地址广播，安装后的 `/etc/ndppd.conf`配置文件内容如下。eth0 修改为 ECS 服务器的默认网卡，rule 修改为对应 IPv6 地址网段。
+
+```bash
+# 开启转发
+echo "net.ipv4.ip_forward = 1" >> /etc/sysctl.conf
+echo "net.ipv4.conf.all.forwarding = 1" >> /etc/sysctl.conf
+echo "net.ipv6.conf.default.forwarding = 1" >> /etc/sysctl.conf
+echo "net.ipv6.conf.all.forwarding = 1" >> /etc/sysctl.conf
+echo "net.ipv6.conf.all.proxy_ndp = 1" >> /etc/sysctl.conf
+echo "net.ipv6.conf.all.accept_ra = 2" >> /etc/sysctl.conf
+```
+
+```bash
+# 开启 zerotier 启用默认路由
+# 每个需要IPV6公网都需要配置
+sudo zerotier-cli set b15644912e8cf918 allowGlobal=true
+sudo zerotier-cli set b15644912e8cf918 allowDefault=1
+
+# zerotier开启IPV6
+# 两个选项默认打开，无需修改任何
+# 记住ZeroTier RFC4193这个后续路由需要用到；这个 ::/0（::/0 via	fdb1:5644:912e:8cf9:1899:93a5:b0fa:ad22）
+# 开启 Auto-Assign from Range 这个IP段根据自己的公网IP配置
+# 不要忘记添加IPV6的默认路由（240e:33d:9140:f00::/64    (LAN)   ）
+```
+
+```bash
+# 安装 ndppd
+sudo apt install -y ndppd
+```
+
+```bash
+# 配置文件；注意填写自己的公网IPV6
+route-ttl 30000
+
+address-ttl 30000
+
+proxy eth0 {
+    router yes
+    timeout 500
+    autowire no
+    keepalive yes
+    retries 3
+    ttl 30000
+    rule 2001:470:811d::/48 {
+        auto
+        autovia no
+    }
+}
+```
+
+```bash
+# 重启 ndppd
+sudo systemctl restart ndppd
+```
+
+
 ## 参考链接
 
 [内网穿透工具ZeroTier...](https://www.bilibili.com/video/BV1Vh411F7Mr/?share_source=copy_web\&vd_source=988ba137d6a6f8fc134601e37b976fba)
