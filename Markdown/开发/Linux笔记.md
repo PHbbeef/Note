@@ -99,7 +99,8 @@ rsync --password-file=rsyncd.txt -avz --delete ./音乐/* work@192.168.1.100::ww
 ## 其他为分类
 ```C++
 //root使用ls命令文件不显示颜色
-cp .bashrc /root/	//有颜色的用户文件复制到root
+// 修改~/.bashrc文件，添加如下内容
+alias ls='ls --color=auto'
 source .bashrc		//刷新文件
 
 

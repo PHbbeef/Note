@@ -14,7 +14,8 @@ openssl req -x509 -nodes -newkey ec:<(openssl ecparam -name prime256v1) -keyout 
 
 #vim /etc/hysteria/config.yaml
 
-# 有域名
+#################### 这两种方式选取其中一个 ####################
+# 有域名（不是自签证书）
 acme:
   domains:
     - test.drlihui.eu.org        # 域名（解析到自己服务IP）
@@ -22,10 +23,11 @@ acme:
 
 # *****这个两个↑↓选择其中一个
 
-# 证书文件路径（没有域名）
+# 证书文件路径（没有域名；自签证书）
 tls:
   cert: /etc/hysteria/server.crt
   key: /etc/hysteria/server.key
+#################### 这两种方式选取其中一个 ####################
 
 auth:
   type: password
@@ -49,8 +51,8 @@ bandwidth:  #根据自己的带宽调整
   down: 100 mbps
   
 tls:
-  sni: bing.com  # 若无域名，请改为 bing.com
-  insecure: true    # 若无域名，需要改参数为 true
+  sni: bing.com  # 若无域名，请改为 bing.com；如果不是自签证书填写你的域名
+  insecure: true    # 若无域名，需要改参数为 true；不是自签证书`客户端`跳过证书验证
  
 socks5:
   listen: 127.0.0.1:1080
@@ -59,7 +61,7 @@ http:
 ```
 其他问题
 ```
-1.服务端出现`server up and running` 运行成功
+1.服务端出现`server up and running` 运行成功；服务端会申请你填写域名申请证书
 2.q服务端启动失败 a查看服务端端口受防火墙影响。证书需要用到80和443端口
 3.`journalctl -u hysteria.service`可以查看全部日志信息
 ```
