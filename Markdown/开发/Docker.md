@@ -1,71 +1,48 @@
-# 基本指令
+# 基本
+镜像可以看做是一个类，镜像类不断实例化一个镜像可以有多个容器。
+
+```bash
+#查看docker信息
+docker info
+```
+
+## 镜像
+
 ```bash
 # 查看镜像
 docker images
 
-# 运行镜像
-docker run <hello-docker>
+# 删除镜像
+docker rmi -f [镜像ID]
+```
 
-# 构建镜像
-镜像名，当前目录
-docker build -t hello-docker .
+## 容器
+
+```bash
+# 查看正在运行的容器
+docker ps-
+docker ps -aq     #列出所有容器ID   
+
+# 开始停止容器
+docker start [容器ID]
+docker stop [容器ID]
+
+# 删除容器
+docker rm -f [容器ID]
+docker rm -f $(docker ps -aq)     #删除所有容器
+
+# 进入容器
+docker exec -it [容器ID] [指定目录]
+
+
+#查看容器日志
+docker logs [容器ID]
 ```
 
 
 # 其他
-```bash
-FROM node:14-alpine
-COPY index.js /index.js
-CMD node /index.js
-```
-## 每一行指令说明：
-镜像是基于层次结构构建的每一层都基于上一层；node这个镜像已经是基于Linux来构建的可以拿来直接使用
-+ 使用node14版本镜像，alpine是轻量的linux发行版
-+ 两个参数(源路径，目标路径),源路径：相当于Dockerfile文件的路径；目标路径：镜像的路径
-+ 两个参数(可执行程序的名字，可执行程序接受的参数) 
-
-
 
 ## 拉取 Huginn
-
-```bash
-# 安装docker
-curl -fsSL https://test.docker.com -o test-docker.sh
-sudo sh test-docker.sh
-#如果要指定拉取仓库修改 vim /etc/docker/daemon.json
-```
-
-```bash
-#开启 docker
-systemctl start docker
-
-#查看状态
-systemctl status docker
-
-#开机自启动
-systemctl enable docker
-```
-
-```bash
-#从仓库拉取镜像，创建并指定端口创建启动一个容器
-docker run -it -p 3000:3000 huginn/huginn
-
-#查看Docker中现有的镜像
-docker image ls
-
-#删除镜像
-# 注！惊喜删除还有容器要删除
-docker image rm huginn/huginn
-
-#使用本地镜像运行容器：在确认镜像名称和标签后，你可以使用类似下面的命令来运行容器
-docker run -it -p 3000:3000 huginn/huginn:latest
-
-#查看运行中的容器
-docker ps
-
-#停止容器
-docker stop <容器ID或名称>
-```
 
 ## 设置代理
   由于国内网络环境代理是个不错的选择
