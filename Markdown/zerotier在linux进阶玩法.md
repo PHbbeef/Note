@@ -130,3 +130,50 @@ sudo systemctl restart ndppd
 [iptables 网络地址转换NAT](https://blog.csdn.net/jrunw/article/details/95332258)
 
 [如何使用iptables和NAT](https://blog.csdn.net/weixin_43402206/article/details/126529113)
+
+
+
+## 搭建 Zerotier Moon 为虚拟网络加速
+
+```bash
+# 进入 zerotier-one 程序所在的目录，默认为 `/var/lib/zerotier-one`。
+cd /var/lib/zerotier-one
+
+# 生成 moon.json 配置文件
+zerotier-idtool initmoon identity.public >> moon.json
+
+# 编辑 moon.json 配置文件
+vim moon.json
+```
+
+将配置文件中的 `"stableEndpoints": []` 修改成 `"stableEndpoints": ["ServerIP/9993"]`，将 ServerIP 替换成云服务器的公网IP。
+
+```bash
+# 生成 .moon 文件
+zerotier-idtool genmoon moon.json
+
+# 将生成的 000000xxxxxxxxxx.moon 移动到 moons.d 目录
+mkdir moons.d
+mv 000000xxxxxxxxxx.moon moons.d
+
+# 重启 zerotier-one 服务
+systemctl restart zerotier-one
+```
+
+
+### 使用 Moon
+普通的 Zerotier 成员使用 Moon 有两种方法，第一种方法是使用 `zerotier-cli orbit` 命令直接添加 Moon 节点ID；第二种方法是在 `zerotier-one` 程序的根目录创建`moons.d`文件夹，将 `xxx.moon` 复制到该文件夹中，我们采用第一种方法
+
+```bash
+# 例如
+zerotier-cli orbit xxxxxxxxxx xxxxxxxxxx
+
+# 查看是否加入moon；输出列表有moon代表连接moon节点否则没有使用moon
+zerotier-cli listpeers
+
+
+#根目录
+Linux：/var/lib/zerotier-one
+Windows：C:\ProgramData\ZeroTier\One
+
+```
