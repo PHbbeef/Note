@@ -26,6 +26,25 @@ Agent就是一个步骤的代理
 
 ## 安装
 
+### docker安装
+```bash
+docker run  --name huginn \
+    -p 3000:3000 \
+    --restart always \
+    -e MYSQL_PORT_3306_TCP_ADDR=192.168.16.1 \
+    -e HUGINN_DATABASE_NAME=huginn \
+    -e HUGINN_DATABASE_USERNAME=huginn \
+    -e HUGINN_DATABASE_PASSWORD=PASSWORD \
+	-e SMTP_SERVER=smtp.qq.com \
+	-e SMTP_PORT=465 \
+	-e SMTP_USER_NAME=3061399658@qq.com	\
+	-e SMTP_PASSWORD=iswkpbrrgjexdgai \
+	-e SMTP_SSL=true \
+	-e EMAIL_FROM_ADDRESS=3061399658@qq.com \
+	-e TIME_ZONE=Beijing \
+    huginn/huginn
+```
+
 ### 手动部署
 ```shell
 # 安装依赖包
@@ -251,3 +270,62 @@ sudo nginx -t
 sudo rm /etc/nginx/sites-enabled/default
 ```
 以上完成了 Huginn 的所有部署，执行 `sudo service nginx restart` 即可访问网站。
+
+
+## 配置
+
+### 数据处理
+
+[ Liquid模板GitHub](https://github.com/Shopify/liquid?tab=readme-ov-file)
+
+1、把抓取到的日期`date`改写为「X 年 X 月 X 日」的形式；
+2、把有问题的`url`修正为绝对链接；
+3、正文中乱糟糟的`HTML`样式全部去除，只保留文本；并且，邮件中只想看通知的摘要，故只保留正文内容`content`的前`200`个字。
+```bash
+{{ date | date: "%Y 年 %m 月 %d 日" }}
+{{ url | replace: '../', 'http://dean.xjtu.edu.cn/' }}
+{{ content | strip_html | truncate: 200 }}
+```
+
+
+### 内容聚合
+Agent 发来的都是单条的通知。为了在一封邮件中塞下一天之内收到的所有通知，需要用一个 Digest Agent 将前面发来的所有数据聚合起来。
+
+`Digest Agent`的配置如下，基本上只需要设置时间参数。这里的 message 字段，我们没有用到；如果你需要为聚合的数据设置任何附加信息（如：聚合的时间、信息来源等），可以用 Liquid 的语法填入。
+
+在`Digest Agent`的配置信息中，有一项`Retained Events`，表示每次聚合时的数量下限。例如，设其值为 6，假如到某天聚合时总计只收集到了 4 条信息，则这次 Agent 不会执行聚合，等到下一天「攒」够 6 条为止。在当前的情景中，我们需要每天及时的收到通知，不需要控制每天发来的通知数量，所以将其设为默认值 0（表示不设下限）。
+
+
+### 发送邮件
++ subject 字段：设置邮件的主题（标题）。
++ headline 字段：设置邮件正文中的标题。
++ body 字段：可选，设置邮件正文的内容，HTML 格式；如果不设置的话，邮件的内容就是将前面输入的 JSON 数据的各个字段直接罗列出来（那一定很难看）。
++ reccipinets 字段：可选，指定邮件的收件人；如果不设置的话，就默认发送到当前 Huginn 账户的邮箱里。
+
+为了定制邮件的样式，关键就在写好这个 body 字段，它的作用就相当于 Jekyll 中放在 _layouts 下的 HTML 模板。
+```html
+<!-- 首先定制正文的样式 -->
+<style>
+html { padding: 10pt; }
+body { font-size: 14pt !important; }
+#mainbox { max-width: 960px; margin: auto; }
+h1 { border-bottom: 1px solid rgba(0, 0, 0, 0.5); }
+h2 { border-bottom: 1px solid rgba(0, 0, 0, 0.5); }
+.digest-message { border: 1px solid rgba(0, 0, 0, 0.5); margin-bottom: 2ex; border-radius: 10px; padding: 1em; }
+</style>
+
+<!-- 然后确定 HTML 框架 -->
+<div id="mainbox">
+  <h1>教务处通知</h1>
+  <p>本次共收到 {{ events | size }} 条信息。</p>
+  {% for event in events %}
+  <div class="digest-message">
+    <h2>{{ event.title }}</h2>
+    <p>发布时间：{{ event.date }} | <a href="{{ event.url }}">阅读原文</a></p>
+    {{ event.content }}
+  </div>
+  {% endfor %}
+</div>
+
+<!--  上面用到了一个新的字段 events，它就是前面由 Digest Agent 发来的整体数据包；要想获取到其中的每一条信息，可以用上面所展示的 for 语法遍历。  -->
+```

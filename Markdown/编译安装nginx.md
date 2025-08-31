@@ -72,14 +72,14 @@ charset utf-8,gbk;
 ```
 
 ## 配置文件
-```
+```conf
 server{
 
     listen 8888;
     server_name localhost;
     charset utf-8,gbk;
     location / {
-
+        # root E:\download;
         root /yuchaoit/;
         autoindex on;
         autoindex_localtime on;
@@ -110,6 +110,7 @@ server{
 			add_header Access-Control-Allow-Origin *;   #跨域头部，星号运行全部
             #这里`Air`是`nodesjs`路由api
 		}
+    }
 ```
 
 # 搭建WebDav
