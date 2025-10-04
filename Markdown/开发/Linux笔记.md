@@ -6,7 +6,7 @@
 
 #网络配置（网关，dns，掩码）
 /etc/network/interfaces
-#静态配置入校
+#静态配置
 auto enp0s3
 iface enp0s3 inet static
 address 192.168.2.2

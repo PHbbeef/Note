@@ -97,8 +97,9 @@ sudo zerotier-cli set b15644912e8cf918 allowDefault=1
 sudo apt install -y ndppd
 ```
 
-```bash
+```conf
 # 配置文件；注意填写自己的公网IPV6
+# 注：IPV6地址大小写
 route-ttl 30000
 
 address-ttl 30000
