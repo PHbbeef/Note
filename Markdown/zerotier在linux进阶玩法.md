@@ -172,6 +172,9 @@ zerotier-cli orbit xxxxxxxxxx xxxxxxxxxx
 # 查看是否加入moon；输出列表有moon代表连接moon节点否则没有使用moon
 zerotier-cli listpeers
 
+zerotier-cli listmoons    #列出加入的Moon节点
+zerotier-cli orbit <world ID> <seed> #加入某个Moon节点
+zerotier-cli deorbit <world ID> #离开某个Moon节点
 
 #根目录
 Linux：/var/lib/zerotier-one

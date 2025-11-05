@@ -15,6 +15,15 @@ gateway 192.168.2.2
 dns-nameservers 8.8.4.4 8.8.8.8
 ```
 
+## 软件源说明
+```
+deb 表示二进制包，
+deb-src 表示源码包。
+main 表示符合 Debian 自由软件指导原则的软件包，
+contrib 表示依赖于非自由软件包的自由软件包，
+non-free 表示不符合 Debian 自由软件指导原则的软件包。
+```
+
 # 环境变量
 
 Linux是一个多用户操作系统，每个用户都有自己专有的运行环境。用户所使用的环境由一系列变量所定义，这些变量被称为环境变量。系统环境变量通常都是大写的。
@@ -108,6 +117,8 @@ source .bashrc		//刷新文件
 vim ~/.vimrc
 
 : set mouse=c   //输入文本
+
+syntax on      //vim 显示关键字高亮
 ```
 
 ## davfs2
@@ -189,6 +200,33 @@ rsyslog配置基本信息
 ```shell
 # 记录登录信息
 auth,authpriv.*    /var/log/auth.log
+```
+
+syslogd 基本信息
+```
+[ pid ]: 进程ID。
+
+uid: 用户ID。
+
+tgid: 线程组ID（通常可以看作是进程ID）。
+
+total_vm: 进程使用的总虚拟内存大小（单位：页面，通常 1 页 = 4KB）。
+
+rss: 驻留物理内存（Resident Set Size）。这是进程实际在物理内存中的部分，是衡量内存占用的关键指标（单位：页面）。
+
+rss_anon: 匿名内存（如堆、栈等）占用的物理内存。
+
+rss_file: 文件缓存（如代码、内存映射文件）占用的物理内存。
+
+rss_shmem: 共享内存占用的物理内存。
+
+pgtables_bytes: 页表占用的内存大小。
+
+swapents: 交换分区使用量。
+
+oom_score_adj: OOM调整分数。范围从 -1000 到 +1000。这个值越低，进程越不容易被杀死。
+
+name: 进程名。
 ```
 
 ## Nmap基本使用
