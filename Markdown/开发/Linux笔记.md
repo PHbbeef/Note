@@ -16,7 +16,10 @@ dns-nameservers 8.8.4.4 8.8.8.8
 ```
 
 ## 软件源说明
-```
+```bash
+# 查看系统版本
+lsb_release -a
+
 deb 表示二进制包，
 deb-src 表示源码包。
 main 表示符合 Debian 自由软件指导原则的软件包，
@@ -322,10 +325,17 @@ chmod a=rw file.txt
 
 2、创建的用户退格上下乱码
 这是由于Linux在创建新用户时忘记指定Shell了，使得Shell设置为了默认的sh。但是，我们经常用的Shell应该时bash。
+
+`/bin/bash`
+
+但这种是临时解决方式，每次都要这样操作效率低下，永久修改方式：
+`sudo usermod -s /bin/bash 用户名`
+
 + 编辑`/etc/passwd`设置普通用户和root用户一样
 + 查看`echo $SHELL`当前所用shell
 + `bash`设置为默认的shell
 + `chsh -s /bin/bash`将默认shell设置为bash(如果在修改默认shell时未指定用户名，系统会自动将更+ 改应用为当前登录用户的)  
+
 
 
 

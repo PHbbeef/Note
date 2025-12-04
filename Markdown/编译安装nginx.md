@@ -19,6 +19,7 @@ $ wget https://buildpack.oss-cn-shanghai.aliyuncs.com/static/r6d/nginx/nginx-com
 $ ./configure \
 --prefix=/usr/local/nginx \
 --with-http_ssl_module \
+--with-http_dav_module \
 --with-openssl=../openssl-1.1.1l \
 --with-pcre=../pcre-8.44 \
 --with-zlib=../zlib-1.2.11
@@ -115,7 +116,13 @@ server{
 
 # 搭建WebDav
 [库文件下载地址](https://github.com/arut/nginx-dav-ext-module)
+
 ``` shell
+
+# 检查nginx是否包含http_dav_module 模块
+# 如果输出包含 with-http_dav_module，则模块已启用。否则，你需要重新编译 Nginx 并添加此模
+nginx -V 2>&1 | grep -o with-http_dav_module
+块。
 
 # 添加库文件
 --with-http_dav_module --add-dynamic-module=../nginx-dav-ext-module
@@ -123,7 +130,7 @@ server{
 
 # webdav配置
 
-```
+```config
         location /webdav {
             # 存储路径
             root /home/;
@@ -132,10 +139,17 @@ server{
             auth_basic "Restricted";
             auth_basic_user_file /etc/nginx/htpasswd;
             
-            dav_methods PUT DELETE MKCOL COPY MOVE;
-            dav_ext_methods PROPFIND OPTIONS;
-            dav_access user:rw group:rw all:rw;
-            create_full_put_path on;
-}
+            dav_methods PUT DELETE MKCOL COPY MOVE;         # DAV支持的请求方法
+            dav_ext_methods PROPFIND OPTIONS LOCK UNLOCK;   #DAV扩展支持的请求方法
+            dav_access user:rw group:rw all:rw;             #设置创建的文件及目录的访问权限
+            create_full_put_path on;                        #启用创建目录支持
+            dav_ext_lock zone=davlock;                      # DAV扩展锁绑定的内存区域
+        }
 ```
-
+```
+## 错误信息
+1、./configure: error: the HTTP XSLT module requires the libxml2/libxslt
+libraries. You can either do not enable the module or install the libraries.
+```
+apt-get install libxslt-dev
+```
