@@ -1,4 +1,17 @@
-## 生成密钥
+## SSH端口转发
+```bash
+ssh -L <本地端口>:127.0.0.1:<远程面板端口> <服务器用户名>@<服务器IP>
+# 例：ssh -L 54321:127.0.0.1:55555 root@178.157.58.201
+ 
+# 若 SSH 用非默认端口（如 2222），加 -p 2222：
+ 
+ssh -fN -p 2222 -L <本地端口>:127.0.0.1:<远程面板端口> <服务器用户名>@<服务器IP>
+# 例：ssh -fN -p 2222 -L 54321:127.0.0.1:55555 root@178.157.58.201
+```
+
+
+## 密钥登录
+### 生成密钥
 ```shell
 # ssh-keygen -t rsa -C "tconcave9@gmail.com"
 ```
@@ -14,14 +27,14 @@
 * 
 
 
-## 配置说明
+#### 配置说明
 生成后，进入用户名文件夹即可看到我们生成的密钥：
 * <font color="red">id_rsa</font>：生成的私钥，保留在电脑即可
 * <font color="red">id_rsa.pub</font>：生成的公钥，打开后，复制内容，后文部署到服务器上
 * 之后，进入<font color ="red">.ssh</font>文件夹内（如果没有就使用mkdir命令创建）,并使用vim创建并编辑<font color="red">authorized_keys</font>文件：
 * 粘贴公钥即,保存并退出即可
 
-## 相关设置
+#### 相关设置
 ```bash
 # 生成的密钥复制到指令文件
 cat id_rsa.pub > authorized_keys
@@ -53,7 +66,7 @@ PasswordAuthentication no
 
 ```
 
-## 相关问题
+#### 相关问题
 ```shell
 # 1.禁止密码登录失效
 /etc/ssh/sshd_config.d

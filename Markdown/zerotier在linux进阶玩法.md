@@ -1,6 +1,11 @@
 ## 说明
 
-把linux作为一个中转服务器(局域中转，通过中转设备访问linux网络网段下的其他设备)
+ZeroTier 网络中的关键概念
+|||
+-|-|
+|PLANET|ZeroTier 网络的核心根服务器，负责网络发现和初始连接。相当于整个网络的"中枢"|
+|MOON|用户可以自建的私有根服务器。它可以作为区域性的代理节点，帮助就近的设备更快地建立连接，提升网络性能|
+|LEAF|	所有接入 ZeroTier 网络的终端设备，如电脑、手机、服务器等。这些设备通过 PLANET 和 MOON 的协调来相互发现和通信|
 
 ## 开启路由转发
 
@@ -181,3 +186,6 @@ Linux：/var/lib/zerotier-one
 Windows：C:\ProgramData\ZeroTier\One
 
 ```
+
+
+## 搭建 planet
